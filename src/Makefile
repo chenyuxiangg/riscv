@@ -19,8 +19,8 @@ all:$(BIN_FILE)
 	@test -d $(TARGET_DIR) && echo "$(TARGET_DIR) is existed." || mkdir -p $(TARGET_DIR)
 	@test -d $(TARGET_O_DIR) && echo "$(TARGET_O_DIR) is existed." || mkdir -p $(TARGET_O_DIR)
 	@test -d $(TARGET_BIN_DIR) && echo "$(TARGET_BIN_DIR) is existed." || mkdir -p $(TARGET_BIN_DIR)
-	@find . -iname "*.o" -type f -exec mv {} $(TARGET_O_DIR) \;
-	@find . -iname "*.elf" -type f -exec mv {} $(TARGET_BIN_DIR) \;
+	@find . -name "*.o" | xargs -I % sh -c "mv -v % $(TARGET_O_DIR)"
+	@find . -iname "*.elf" | xargs -I % sh -c "mv -v % $(TARGET_BIN_DIR)"
 
 span.elf:$(OBJS)
 	$(GCC) $(FLAG)$(LD_FLAG) -Ttext=0x80000000 -o span.elf $^
