@@ -1,4 +1,8 @@
 #include "type.h"
+
+#define MAX_TASK	10
+#define TASK_STACK 	1024
+
 typedef struct {
 	reg_t ra;
 	reg_t sp;
@@ -32,10 +36,23 @@ typedef struct {
 	reg_t t5;
 	reg_t t6;
 } Context;
-
 typedef Context* PContext;
+
+typedef struct {
+	Context ctx;
+} Task;
+
+typedef struct {
+	uint32_t capcity;
+	uint32_t size;
+	uint32_t curindex;
+	Task tasks[MAX_TASK];
+} TaskSet;
+
+extern TaskSet g_taskset;
 
 void schedule_init(void);
 void delay(uint32_t count);
 void schedule(void);
 void new_task(void* func);
+void yeild(void);

@@ -4,23 +4,16 @@
 void task_test()
 {
 	uart_puts("task_test created!\n");
-	yeild();
-	uart_puts("I am task0\n");
+	while(1) {
+		uart_puts("task_test is running\n");
+		delay(1000);
+	}
 }
-
-void task_test1()
-{
-	uart_puts("task_test1 created!\n");
-	yeild();
-	uart_puts("I am task1\n");
-}
-
 void span_main(void)
 {
 	uart_init();
 	schedule_init();
 	uart_puts("Hello, RISC-V\n");
 	new_task((void*)task_test);
-	new_task((void*)task_test1);
 	schedule();
 }
