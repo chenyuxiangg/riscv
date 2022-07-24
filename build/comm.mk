@@ -3,7 +3,8 @@ BUILD_PATH = $(ROOT_PATH)/build
 CROSS_COMPILE = riscv64-unknown-elf-
 INCLUDE = -I$(ROOT_PATH)/src/comm/include \
 	  -I$(ROOT_PATH)/src/driver/code/cooper_task \
-	  -I$(ROOT_PATH)/src/driver/code/uart/
+	  -I$(ROOT_PATH)/src/driver/code/uart \
+	  -I$(ROOT_PATH)/src/driver/code/trap
 
 FLAG = -nostdlib -fno-builtin -march=rv32ima -mabi=ilp32 -g -Wall -Werror $(INCLUDE) 
 LD_FLAG = -T $(BUILD_PATH)/boot.ld 

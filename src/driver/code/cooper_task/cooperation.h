@@ -1,3 +1,6 @@
+#ifndef COOPERATION_H
+#define COOPERATION_H
+
 #include "type.h"
 
 #define MAX_TASK	10
@@ -56,3 +59,5 @@ void delay(uint32_t count);
 void schedule(void);
 void new_task(void* func);
 void yeild(void);
+
+#endif

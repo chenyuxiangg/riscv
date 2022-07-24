@@ -80,3 +80,23 @@ change_context:
 	mv 	t6, a0
 	restore_reg t6
 	ret
+
+.text
+.global trap_vector
+.align 4
+trap_vector:
+	csrrw 	t6, mscratch, t6
+	save_reg t6
+	mv 	t5, t6
+	csrr 	t6, mscratch
+	sw 	t6, 120(t5)
+	csrw 	mscratch, t5
+	
+	csrr 	a0, mepc
+	csrr 	a1, mcause
+	call 	trap_handle
+
+	csrr 	t6, mscratch
+	restore_reg t6
+	mret
+
