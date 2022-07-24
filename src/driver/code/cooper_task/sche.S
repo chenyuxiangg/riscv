@@ -62,6 +62,7 @@
 	lw t3, 108(\base)
 	lw t4, 112(\base)
 	lw t5, 116(\base)
+	lw t6, 120(\base)
 .endm
 
 .text
