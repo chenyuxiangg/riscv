@@ -1,6 +1,7 @@
 #include "trap.h"
 #include "drv_uart.h"
 #include "plic.h"
+#include "timer.h"
 
 extern void trap_vector(void);
 
@@ -31,8 +32,15 @@ void external_handle()
 	}
 }
 
+void timer_handle()
+{
+	uart_puts("timer triger!\n");
+	timer_load(TIMER_DEFAULT_INTERVAL);
+}
+
 void other_handle()
 {
+	uart_puts("other triger!\n");
 	reg_t irq = plic_claim();
 	plic_complete(irq);
 }
@@ -42,6 +50,9 @@ void int_handle(reg_t mepc, reg_t mcause)
 	(void)mepc;
 	uint8_t cause_code = mcause & 0xfff;
 	switch(cause_code) {
+		case 7:
+			timer_handle();
+			break;
 		case 11:
 			external_handle();
 			break;
