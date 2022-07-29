@@ -1,6 +1,13 @@
 #ifndef PLATFORM_H
 #define PLATFORM_H
 
-#define MAX_CPUS 8
+// ============ sys =============
+#define MAX_CPUS 	8
+
+// ============ uart ============
+#define UART0_IRQ	10
+
+// ============ macro ===========
+#define GET_BIT(val, n)		(((val) >> (n)) & 1)
 
 #endif

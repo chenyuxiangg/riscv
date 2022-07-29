@@ -16,8 +16,8 @@
 #define UART_MSR 0x6
 #define UART_SPR 0x7
 
-extern void uart_init(void);
-extern int uart_puts(const char*);
-extern int uart_getc();
+void uart_init(void);
+int uart_puts(const char*);
+void uart_recvback(void);
 
 #endif

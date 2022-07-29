@@ -4,6 +4,7 @@ SRC_C = ./app/code/main.c \
 	./driver/code/uart/drv_uart.c \
 	./driver/code/cooper_task/cooperation.c \
 	./driver/code/trap/trap.c \
+	./driver/code/plic/plic.c \
 
 SRC_S = ./boot/code/boot.S \
 	./driver/code/cooper_task/sche.S \

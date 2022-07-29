@@ -1,5 +1,6 @@
 #include "trap.h"
 #include "drv_uart.h"
+#include "plic.h"
 
 extern void trap_vector(void);
 
@@ -18,10 +19,36 @@ void trap_init(void)
 	write_mtvec((reg_t)trap_vector);
 }
 
+void external_handle()
+{
+	reg_t irq = plic_claim();
+	if(irq == UART0_IRQ) {
+		uart_recvback();
+	}
+
+	if(irq) {
+		plic_complete(irq);
+	}
+}
+
+void other_handle()
+{
+	reg_t irq = plic_claim();
+	plic_complete(irq);
+}
+
 void int_handle(reg_t mepc, reg_t mcause)
 {
 	(void)mepc;
-	(void)mcause;
+	uint8_t cause_code = mcause & 0xfff;
+	switch(cause_code) {
+		case 11:
+			external_handle();
+			break;
+		default:
+			other_handle();
+			break;
+	}
 }
 
 void exception_handle(reg_t mepc, reg_t mcause)
@@ -36,7 +63,7 @@ void exception_handle(reg_t mepc, reg_t mcause)
 
 void trap_handle(reg_t mepc, reg_t mcause)
 {
-	if((mcause >> 30)&1) {
+	if(mcause & 0x80000000) {
 		int_handle(mepc, mcause);
 	} else {
 		exception_handle(mepc, mcause);
