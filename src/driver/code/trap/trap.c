@@ -1,19 +1,13 @@
+#include "riscv.h"
+#include "platform.h"
 #include "trap.h"
-#include "drv_uart.h"
-#include "plic.h"
-#include "timer.h"
 
 extern void trap_vector(void);
-
-void write_mtvec(reg_t val)
-{
-	asm volatile("csrw mtvec, %0" : : "r"(val));
-}
-
-void write_mepc(reg_t val)
-{
-	asm volatile("csrw mepc, %0" : : "r"(val));
-}
+extern reg_t plic_claim(void);
+extern void plic_complete(reg_t);
+extern void uart_recvback();
+extern void uart_puts(const char*);
+extern void timer_load(uint64_t);
 
 void trap_init(void)
 {

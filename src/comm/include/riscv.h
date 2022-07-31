@@ -20,6 +20,16 @@ static inline uint32_t read_mhartid(void)
 	return hartid;
 }
 
+static inline void write_mtvec(reg_t val)
+{
+	asm volatile("csrw mtvec, %0" : : "r"(val));
+}
+
+static inline void write_mepc(reg_t val)
+{
+	asm volatile("csrw mepc, %0" : : "r"(val));
+}
+
 static inline void write_mie(reg_t mie)
 {
 	asm volatile("csrw mie, %0" : : "r"(mie));

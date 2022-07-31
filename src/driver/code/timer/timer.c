@@ -1,5 +1,6 @@
-#include "timer.h"
 #include "riscv.h"
+#include "platform.h"
+#include "timer.h"
 
 void timer_init(void)
 {
