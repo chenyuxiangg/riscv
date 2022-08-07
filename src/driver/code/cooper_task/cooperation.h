@@ -38,6 +38,7 @@ typedef struct {
 	reg_t t4;
 	reg_t t5;
 	reg_t t6;
+	reg_t pc;
 } Context;
 typedef Context* PContext;
 
@@ -48,7 +49,7 @@ typedef struct {
 typedef struct {
 	uint32_t capcity;
 	uint32_t size;
-	uint32_t curindex;
+	int 	 curindex;
 	Task tasks[MAX_TASK];
 } TaskSet;
 

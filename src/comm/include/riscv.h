@@ -13,11 +13,30 @@ static inline reg_t read_tp()
 	return val;
 }
 
+static inline reg_t read_t5()
+{
+	reg_t val = 0;
+	asm volatile("mv %0, t5" : "=r"(val) :);
+	return val;
+}
+
+static inline reg_t read_t6()
+{
+	reg_t val = 0;
+	asm volatile("mv %0, t6" : "=r"(val) :);
+	return val;
+}
+
 static inline uint32_t read_mhartid(void)
 {
 	uint32_t hartid = 0;
 	asm volatile("csrr %0, mhartid" : "=r"(hartid) :);
 	return hartid;
+}
+
+static inline void write_mscratch(uint32_t val)
+{
+	asm volatile("csrw mscratch,%0" : : "r"(val));
 }
 
 static inline void write_mtvec(reg_t val)
@@ -33,6 +52,13 @@ static inline void write_mepc(reg_t val)
 static inline void write_mie(reg_t mie)
 {
 	asm volatile("csrw mie, %0" : : "r"(mie));
+}
+
+static inline reg_t read_mepc()
+{
+	reg_t val = 0;
+	asm volatile("csrr %0, mepc" : "=r"(val) : );
+	return val;
 }
 
 static inline reg_t read_mie()

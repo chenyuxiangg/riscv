@@ -3,5 +3,5 @@
 #include "type.h"
 
 void trap_init(void);
-void trap_handle(reg_t mepc, reg_t mcause);
+reg_t trap_handle(reg_t mepc, reg_t mcause);
 #endif

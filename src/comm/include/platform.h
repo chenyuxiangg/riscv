@@ -8,7 +8,7 @@
 #define UART0_IRQ	10
 
 // ============ timer ===========
-#define TIMER_DEFAULT_INTERVAL 1000000
+#define TIMER_DEFAULT_INTERVAL 10000000
 
 // ============ macro ===========
 #define GET_BIT(val, n)		(((val) >> (n)) & 1)

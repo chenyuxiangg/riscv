@@ -16,6 +16,14 @@ _start:
 
 	la 	a0, enter_boot_msg
 	jal	uart_puts
+
+	# set the mstatus.mpp = 3 means return m-mode, and must set the mstatus.mpie = 1 at time.
+	li 	a0, 3 << 11 | 1 << 7
+	csrr 	a1, mstatus
+	or 	a0, a0, a1
+	csrw 	mstatus, a0
+
+	# jump to app main
 	j	span_main
 
 stacks:

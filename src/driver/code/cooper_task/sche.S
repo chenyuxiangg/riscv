@@ -66,22 +66,6 @@
 .endm
 
 .text
-.global switch_to
-.align 4
-switch_to:
-	csrrw 	t6, mscratch, t6
-	beqz 	t6, change_context
-	save_reg t6 
-	mv	t5, t6
-	csrr 	t6, mscratch	# this step means restore t6 value, because t6 maybe not quel to base of context
-	sw 	t6, 120(t5)
-change_context:
-	csrw 	mscratch, a0
-	mv 	t6, a0
-	restore_reg t6
-	ret
-
-.text
 .global trap_vector
 .align 4
 trap_vector:
@@ -90,13 +74,28 @@ trap_vector:
 	mv 	t5, t6
 	csrr 	t6, mscratch
 	sw 	t6, 120(t5)
+	csrr 	a0, mepc
+	sw 	a0, 124(t5)
 	csrw 	mscratch, t5
 	
 	csrr 	a0, mepc
 	csrr 	a1, mcause
 	call 	trap_handle
 
+	# trap_handle will return mepc with a0
+	csrw 	mepc, a0
+
 	csrr 	t6, mscratch
 	restore_reg t6
 	mret
 
+.global switch_to
+.align 4
+switch_to:
+	csrw 	mscratch, a0
+	lw 	t5, 124(a0)
+	csrw 	mepc, t5
+	mv 	t6, a0
+	restore_reg t6
+	mret
+.end
