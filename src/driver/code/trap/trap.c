@@ -1,5 +1,6 @@
 #include "riscv.h"
 #include "platform.h"
+#include "clint.h"
 #include "trap.h"
 
 extern void trap_vector(void);
@@ -33,6 +34,13 @@ void timer_handle()
 	schedule();
 }
 
+void software_handle()
+{
+	reg_t id = read_mhartid();
+	MSIP(id) = 0;
+	schedule();
+}
+
 void other_handle()
 {
 	uart_puts("other_handle\n");
@@ -44,6 +52,9 @@ void int_handle(reg_t mcause)
 {
 	uint8_t cause_code = mcause & 0xfff;
 	switch(cause_code) {
+		case 3:
+			software_handle();
+			break;
 		case 7:
 			timer_handle();
 			break;

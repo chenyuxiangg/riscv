@@ -27,7 +27,10 @@ void task_test2()
 	uart_puts("task_test2 created!\n");
 	while (1) {
 		uart_puts("task2 is running\n");
+		uart_puts("task2 is yeild....\n");
+		yeild();
 		delay(5000);
+		uart_puts("task2 is rerun!\n");
 	}
 }
 

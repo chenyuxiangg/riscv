@@ -1,4 +1,5 @@
 #include "riscv.h"
+#include "clint.h"
 #include "cooperation.h"
 
 uint8_t g_task_stacks[MAX_TASK][TASK_STACK];
@@ -42,5 +43,6 @@ void new_task(void* func)
 
 void yeild(void)
 {
-	schedule();
+	reg_t id = read_mhartid();
+	MSIP(id) = 1;
 }
