@@ -4,12 +4,21 @@
 #include "plic.h"
 #include "timer.h"
 
+#define NEED_LOCK
+#include "lock.h"
+
+extern int printf(const char*, ...);
+uint32_t g_test_critical_cnt = 0;
+
 void task_test0()
 {
 	uart_puts("task_test0 created!\n");
 	while(1) {
-		uart_puts("task0 is runging...\n");
-		delay(5000);
+		delay(1000);
+		SPINLOCK();
+		++g_test_critical_cnt;
+		printf("task0 : %d\n", g_test_critical_cnt);
+		SPINUNLOCK();
 	}
 }
 
@@ -17,8 +26,11 @@ void task_test1()
 {
 	uart_puts("task_test1 created!\n");
 	while (1) {
-		uart_puts("task1 is running\n");
-		delay(5000);
+		SPINLOCK();
+		++g_test_critical_cnt;
+		printf("task1 : %d\n", g_test_critical_cnt);
+		SPINUNLOCK();
+		delay(15000);
 	}
 }
 
@@ -27,10 +39,13 @@ void task_test2()
 	uart_puts("task_test2 created!\n");
 	while (1) {
 		uart_puts("task2 is running\n");
-		uart_puts("task2 is yeild....\n");
+		SPINLOCK();
+		++g_test_critical_cnt;
+		printf("task2 : %d\n", g_test_critical_cnt);
+		SPINUNLOCK();
 		yeild();
-		delay(5000);
 		uart_puts("task2 is rerun!\n");
+		delay(10000);
 	}
 }
 

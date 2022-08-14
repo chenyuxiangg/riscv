@@ -8,6 +8,7 @@ INCLUDE = -I$(ROOT_PATH)/src/comm/include \
 	  -I$(ROOT_PATH)/src/driver/code/plic \
 	  -I$(ROOT_PATH)/src/driver/code/timer \
 	  -I$(ROOT_PATH)/src/driver/code/clint \
+	  -I$(ROOT_PATH)/src/driver/code/lock \
 
 FLAG = -nostdlib -fno-builtin -march=rv32ima -mabi=ilp32 -g -Wall $(INCLUDE) 
 LD_FLAG = -T $(BUILD_PATH)/boot.ld 

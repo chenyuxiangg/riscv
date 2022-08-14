@@ -7,6 +7,7 @@ SRC_C = ./app/code/main.c \
 	./driver/code/plic/plic.c \
 	./driver/code/timer/timer.c \
 	./driver/code/lib/printf.c \
+	./driver/code/lock/lock.c \
 
 SRC_S = ./boot/code/boot.S \
 	./driver/code/cooper_task/sche.S \
